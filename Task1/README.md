@@ -20,7 +20,7 @@ Task1:
 
 
 
--Create VM instance on Google Cloud Platform with Debian9
+-Create VM instance on Google Cloud Platform with Centos7
 
 -Add SSH keys on instance, and create rule firewall to open 8080 port
 
