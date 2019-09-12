@@ -53,8 +53,9 @@ Task1:
 - Under Source Code Management, Enter your repository URL. We have a test repository located at
 `https://github.com/ryzhan/JavaSimpleProj.git`
 
--Build --> Invoke top-level Maven targets
-`package`
+-Build Triggers --> Poll SCM --> H/2 * * * *        (it's meen every two minute jenkins check github)
+
+-Build --> Invoke top-level Maven targets --> package
 
 -Save and Build project.Building jar: 
 `/var/lib/jenkins/workspace/jenkins-test/target/com.yurkovskiy-1.0-SNAPSHOT.jar`
