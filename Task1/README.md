@@ -21,7 +21,11 @@ Task1:
 
 
 
+<<<<<<< HEAD
 -Create VM instance(name=jenkins-8080) on Google Cloud Platform with Centos7
+=======
+-Create VM instance on Google Cloud Platform with Centos7
+>>>>>>> 4ec303796ffbc86d322f4281cb37318ac0e47a8e
 
 -Add SSH keys on instance(jenkins-8080), and create rule firewall to open 8080 port
 
