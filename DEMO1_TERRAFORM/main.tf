@@ -17,3 +17,8 @@ module "production-tf" {
   network_ip_mongo = module.mongo-db-tf.network_ip_mongo
 }
 
+module "jenkins-8080-tf" {
+  source = "./modules/jenkins-8080-tf"  
+  instance_name = "jenkins-8080-tf"
+  network_ip_production = module.production-tf.network_ip_production
+}
