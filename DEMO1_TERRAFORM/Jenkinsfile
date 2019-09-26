@@ -6,7 +6,12 @@ pipeline {
     agent {
         label 'master'
     }
-    
+    stages {
+        stage('Preparation') {
+            steps {
+                    git 'https://github.com/ryzhan/carts.git'
+            }
+        }
     stage('Build') {
             steps {
                 sh 'mvn clean package' 
@@ -35,6 +40,7 @@ pipeline {
     post {
         always {
             echo 'I have finished and deleting workspace'
+            deleteDir() 
             emailext attachLog: true, body: 'All Done', compressLog: true, subject: 'Deploy', to: 'slavik.ryzhan@gmail.com'
         }
         success {
@@ -50,4 +56,4 @@ pipeline {
             echo 'Things were different before...'
         }
     }
-
+}
