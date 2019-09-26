@@ -26,6 +26,7 @@ sudo sed -i "s/-Ddb:carts-db=/-Ddb:carts-db=${MONGO_NETWORK_DB}/" /usr/lib/syste
 sudo systemctl daemon-reload 
 sudo systemctl start carts
 sudo systemctl enable carts
+
 echo "Production Server"
 
 sudo su <<_EOF_
@@ -34,6 +35,7 @@ mkdir -p /home/jenkins/.ssh
 chmod 700 /home/jenkins/.ssh
 cat /tmp/id_rsa.pub >> /home/jenkins/.ssh/authorized_keys
 chown jenkins:jenkins /home/jenkins/.ssh/ /home/jenkins/.ssh/authorized_keys
+chown jenkins:jenkins /usr/lib/systemd/system/carts.service
 exit
 _EOF_
 
