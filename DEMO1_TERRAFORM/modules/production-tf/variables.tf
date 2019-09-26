@@ -13,6 +13,11 @@ variable "instance_name" {
   default     = ""
 }
 
+variable "user_name" {
+  description = "User name"
+  default     = "erkek"
+}
+
 variable "zone" {
   description = "Zone"
   default     = "us-east1-b"
@@ -40,12 +45,17 @@ variable "subnetwork" {
 
 variable "public_key_path" {
   description = "public key for user Erkek"
-  default     = "/home/erkek/.ssh/id_rsa.pub"
+  default     = "./credential/id_rsa.pub"
 }
 
 variable "private_key_path" {
   description = "Path to the private key used for ssh access"
-  default     = "/home/erkek/.ssh/id_rsa"
+  default     = "./credential/id_rsa"
+}
+
+variable "deploy_public_key_path" {
+  description = "public key for user Erkek"
+  default     = "./credential/deploy.pub"
 }
 
 variable "network_ip_mongo" {

@@ -6,7 +6,7 @@ resource "google_compute_instance" "jenkins-8080-tf" {
   tags = ["jenkins-8080-tf","http-server"]
 
   metadata = {
-   ssh-keys = "erkek:${file(var.public_key_path)}"
+   ssh-keys = "${var.user_name}:${file(var.public_key_path)}"
   }
 
   metadata_startup_script = ""
@@ -28,7 +28,7 @@ resource "google_compute_instance" "jenkins-8080-tf" {
   
 }
 
-resource "null_resource" "mongo-db-prov" {
+resource "null_resource" "jenkins-8080-prov" {
  
 connection {
     user = "erkek"
@@ -36,12 +36,26 @@ connection {
     private_key = "${file(var.private_key_path)}"
     agent = true   
   } 
+
+  provisioner "file" {
+    source      = "./credential/id_rsa"
+    destination = "/tmp/id_rsa"
+
+  }
+
+  provisioner "file" {
+    source      = "./credential/id_rsa.pub"
+    destination = "/tmp/id_rsa.pub"
+
+  }
+
   provisioner "file" {
     source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"
     destination = "~/scenario_jenkins.sh"
 
   }
 
+  
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/scenario_jenkins.sh",
@@ -51,3 +65,4 @@ connection {
   }
 
 }
+

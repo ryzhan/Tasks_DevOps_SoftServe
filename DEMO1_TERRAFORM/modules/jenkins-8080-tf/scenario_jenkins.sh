@@ -3,10 +3,10 @@
 #sudo yum update -y 
 PRODUCTION_NETWORK_IP=$1
 
-sudo yum install git -y 
-sudo yum install java-1.8.0-openjdk -y 
+sudo yum install git -y -q
+sudo yum install java-1.8.0-openjdk -y -q
 
-sudo yum install maven -y 
+sudo yum install maven -y -q
 sudo sh -c 'cat << EOF >> /etc/profile.d/maven.sh
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/
 export M2_HOME=/usr/share/maven/
@@ -24,8 +24,21 @@ sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
 echo " Jenkins Unlock Key"
-sudo cat cat /var/lib/jenkins/secrets/initialAdminPassword
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+echo "Jenkins server"
+
+sudo su <<_EOF_
+#useradd -m jenkins
+mkdir -p /var/lib/jenkins/.ssh
+chmod 700 /var/lib/jenkins/.ssh
+mv /tmp/id_rsa /var/lib/jenkins/.ssh/
+mv /tmp/id_rsa.pub /var/lib/jenkins/.ssh/
+ssh-keyscan -H ${PRODUCTION_NETWORK_IP} >> /var/lib/jenkins/.ssh/known_hosts
+chmod 600 /var/lib/jenkins/.ssh/id_rsa
+chmod 600 /var/lib/jenkins/.ssh/id_rsa.pub
+chown jenkins:jenkins /var/lib/jenkins/.ssh /var/lib/jenkins/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa.pub /var/lib/jenkins/.ssh/known_hosts
+exit
+_EOF_
+
+echo "Production server ip ${PRODUCTION_NETWORK_IP}"
 echo "All Done"
-
-
-

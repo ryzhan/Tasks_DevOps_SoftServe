@@ -6,7 +6,7 @@ resource "google_compute_instance" "production-tf" {
   tags = ["production-tf","http-server"]
 
   metadata = {
-   ssh-keys = "erkek:${file(var.public_key_path)}"
+   ssh-keys = "${var.user_name}:${file(var.public_key_path)}"
   }
 
   metadata_startup_script = ""
@@ -28,17 +28,24 @@ resource "google_compute_instance" "production-tf" {
   
 }
 
-resource "null_resource" "mongo-db-prov" {
+resource "null_resource" "production-prov" {
  
 connection {
     user = "erkek"
     host = "${google_compute_instance.production-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
     agent = true   
-  } 
+  }
+
   provisioner "file" {
     source      = "./modules/production-tf/scenario_production.sh"
     destination = "~/scenario_production.sh"
+
+  }
+
+  provisioner "file" {
+    source      = "./credential/id_rsa.pub"
+    destination = "/tmp/id_rsa.pub"
 
   }
 
@@ -52,4 +59,7 @@ connection {
   }
 
 }
+
+
+
 

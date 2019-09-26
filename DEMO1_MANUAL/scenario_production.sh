@@ -2,8 +2,8 @@
 
 #sudo yum update -y -q
 
-sudo yum install git -y 
-sudo yum install java-1.8.0-openjdk -y 
+sudo yum install git -y -q
+sudo yum install java-1.8.0-openjdk -y -q
 
 sudo sh -c 'cat << EOF >> /usr/lib/systemd/system/carts.service
 [Unit]
