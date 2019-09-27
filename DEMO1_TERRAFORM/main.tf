@@ -7,8 +7,6 @@ provider "google" {
 module "mongo-db-tf" {
   source = "./modules/mongo-db-tf"  
   instance_name = "mongo-db-tf"
- 
-  #depends_on = ["google_compute_firewall.allow-ssh"]
 }
 
 module "production-tf" {

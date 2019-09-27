@@ -66,3 +66,41 @@ connection {
 
 }
 
+resource "null_resource" "jenkins-8080-cli-unlock" {
+ 
+depends_on = ["null_resource.jenkins-8080-prov"]
+
+connection {
+    user = "erkek"
+    host = "${google_compute_instance.jenkins-8080-tf.network_interface.0.access_config.0.nat_ip}"
+    private_key = "${file(var.private_key_path)}"
+    agent = true   
+  } 
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/add_user_jenkins"
+    destination = "/tmp/add_user_jenkins"
+
+  }
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/disable_wizzard"
+    destination = "/tmp/disable_wizzard"
+
+  }
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/scenario_jenkins_cli_unlock.sh"
+    destination = "/tmp/scenario_jenkins_cli_unlock.sh"
+
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
+      "sudo /tmp/scenario_jenkins_cli_unlock.sh"
+    ]
+  
+  }
+
+}
