@@ -23,11 +23,11 @@ sudo yum install jenkins -y
 sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
-echo " Jenkins Unlock Key"
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 echo "Jenkins server"
+echo " Jenkins Unlock Key"
 
 sudo su <<_EOF_
+cat /var/lib/jenkins/secrets/initialAdminPassword
 #useradd -m jenkins
 mkdir -p /var/lib/jenkins/.ssh
 chmod 700 /var/lib/jenkins/.ssh
