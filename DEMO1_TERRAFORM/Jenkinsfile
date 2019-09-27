@@ -31,8 +31,9 @@ pipeline {
     }
     stage('Deploy') {
         steps {
-            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.15.229:~'
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.15.229 systemctl restart carts'
+            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.5 systemctl start carts'
+            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.0.5:~'
+            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.5 systemctl stop carts'
         }
     }
     }
