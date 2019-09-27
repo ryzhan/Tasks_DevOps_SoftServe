@@ -39,8 +39,7 @@ pipeline {
     }
     post {
         always {
-            echo 'I have finished and deleting workspace'
-            emailext attachLog: true, body: 'All Done', compressLog: true, subject: 'Deploy', to: 'slavik.ryzhan@gmail.com'
+            echo 'I have finished'            
         }
         success {
             echo 'Job succeeeded!'
