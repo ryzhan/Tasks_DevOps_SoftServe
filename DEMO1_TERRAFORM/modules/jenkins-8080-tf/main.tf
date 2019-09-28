@@ -78,27 +78,54 @@ connection {
   } 
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/add_user_jenkins"
+    source      = "./modules/jenkins-8080-tf/files/add_user_jenkins"
     destination = "/tmp/add_user_jenkins"
 
   }
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/disable_wizzard"
+    source      = "./modules/jenkins-8080-tf/files/disable_wizzard"
     destination = "/tmp/disable_wizzard"
 
   }
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/scenario_jenkins_cli_unlock.sh"
+    source      = "./modules/jenkins-8080-tf/files/scenario_jenkins_cli_unlock.sh"
     destination = "/tmp/scenario_jenkins_cli_unlock.sh"
 
   }
-
+  
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
       "sudo /tmp/scenario_jenkins_cli_unlock.sh"
+    ]
+  
+  }
+
+}
+
+resource "null_resource" "jenkins-8080-add-job" {
+ 
+depends_on = ["null_resource.jenkins-8080-cli-unlock"]
+
+connection {
+    user = "erkek"
+    host = "${google_compute_instance.jenkins-8080-tf.network_interface.0.access_config.0.nat_ip}"
+    private_key = "${file(var.private_key_path)}"
+    agent = true   
+  } 
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/jenkins.xml"
+    destination = "~/jenkins.xml"
+
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job JenkinsDemo  < jenkins.xml"
+      #"sudo systemctl restart jenkins"
     ]
   
   }
