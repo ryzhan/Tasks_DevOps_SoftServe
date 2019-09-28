@@ -32,7 +32,7 @@ echo "Plugin install"
 _EOF_
 
 sudo su <<_EOF_
-echo"--------------"
+echo "======================================"
 sleep 30
 java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s "http://localhost:8080/" safe-restart
 #systemctl restart jenkins
@@ -40,5 +40,6 @@ echo "Jenkins restart"
 _EOF_
 
 echo "Job Add "
+sleep 30
 echo "All Done"
 exit
