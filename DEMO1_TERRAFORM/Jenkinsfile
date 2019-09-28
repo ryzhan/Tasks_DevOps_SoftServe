@@ -31,16 +31,15 @@ pipeline {
     }
     stage('Deploy') {
         steps {
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.11 sudo systemctl stop carts'
-            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.0.11:~'
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.11 sudo systemctl start carts'
+            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.15.213 sudo systemctl stop carts'
+            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.15.213:~'
+            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.15.213 sudo systemctl start carts'
         }
     }
     }
     post {
         always {
-            echo 'I have finished and deleting workspace'
-            emailext attachLog: true, body: 'All Done', compressLog: true, subject: 'Deploy', to: 'slavik.ryzhan@gmail.com'
+            echo 'I have finished'            
         }
         success {
             echo 'Job succeeeded!'
