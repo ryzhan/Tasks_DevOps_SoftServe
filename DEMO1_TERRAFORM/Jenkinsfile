@@ -32,7 +32,7 @@ pipeline {
     stage('Deploy') {
 
         environment {
-                PRODUCTION_NETWORK_IP = sh(script: 'echo ${PRODUCTION_NETWORK_IP}', , returnStdout: true).trim()
+                PRODUCTION_NETWORK_IP = sh(script: "cat /var/lib/jenkins/production_local_ip", , returnStdout: true).trim()
                 }
 
         steps {
@@ -45,7 +45,6 @@ pipeline {
     post {
         always {
             echo 'I have finished and deleting workspace'
-            emailext attachLog: true, body: 'All Done', compressLog: true, subject: 'Deploy', to: 'slavik.ryzhan@gmail.com'
         }
         success {
             echo 'Job succeeeded!'

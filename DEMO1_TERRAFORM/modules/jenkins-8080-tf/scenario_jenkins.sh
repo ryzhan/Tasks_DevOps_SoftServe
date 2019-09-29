@@ -16,11 +16,10 @@ EOF'
 sudo chmod +x /etc/profile.d/maven.sh
 source /etc/profile.d/maven.sh
 
-sudo sh -c 'cat << EOF >> /etc/environment
-PRODUCTION_NETWORK_IP=$PRODUCTION_NETWORK_IP
-EOF'
-
+sudo sh -c "cat << EOF >> /var/lib/jenkins/production_local_ip
 $PRODUCTION_NETWORK_IP
+EOF"
+
 curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 sudo yum install jenkins -y 
