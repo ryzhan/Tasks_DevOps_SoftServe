@@ -30,10 +30,15 @@ pipeline {
             }
     }
     stage('Deploy') {
+
+        environment {
+                PRODUCTION_NETWORK_IP = sh(script: 'echo ${PRODUCTION_NETWORK_IP}', , returnStdout: true).trim()
+                }
+
         steps {
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.11 sudo systemctl stop carts'
-            sh 'scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@10.142.0.11:~'
-            sh 'ssh -oStrictHostKeyChecking=no jenkins@10.142.0.11 sudo systemctl start carts'
+            sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl stop carts"
+            sh "scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@$PRODUCTION_NETWORK_IP:~"
+            sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl start carts"
         }
     }
     }

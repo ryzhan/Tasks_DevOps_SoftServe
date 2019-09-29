@@ -98,7 +98,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
-      "sudo /tmp/scenario_jenkins_cli_unlock.sh"
+      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_production}"
     ]
   
   }
