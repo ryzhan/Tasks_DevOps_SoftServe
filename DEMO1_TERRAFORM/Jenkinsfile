@@ -36,6 +36,11 @@ pipeline {
                 }
 
         steps {
+            
+                timeout(time:5, unit:'DAYS') {
+                    input message:'Approve deployment?', submitter: 'it-ops'
+                }
+            
             sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl stop carts"
             sh "scp /var/lib/jenkins/workspace/JenkinsDemo/target/carts.jar jenkins@$PRODUCTION_NETWORK_IP:~"
             sh "ssh -oStrictHostKeyChecking=no jenkins@$PRODUCTION_NETWORK_IP sudo systemctl start carts"
