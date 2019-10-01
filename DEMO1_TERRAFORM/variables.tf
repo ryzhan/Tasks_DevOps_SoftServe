@@ -1,5 +1,7 @@
 variable "credentials" {
   description = "CREDENTIALS_JSON_PATH"
+  #default = "${file("C:/Users/marik/testteraform/credential/marikkey.json ")}"
+  #default = "${file("C:/IF-101/Tasks_DevOps_SoftServe/DEMO1_TERRAFORM/credential/arctic-plasma-248716-9bc5c7955a26.json")}"
   default = "./credential/arctic-plasma-248716-9bc5c7955a26.json"
 }
 

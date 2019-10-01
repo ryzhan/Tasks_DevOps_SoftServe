@@ -31,10 +31,11 @@ resource "google_compute_instance" "production-tf" {
 resource "null_resource" "production-prov" {
  
 connection {
+    type = "ssh"
     user = "erkek"
     host = "${google_compute_instance.production-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
-    agent = true   
+    agent = false   
   }
 
   provisioner "file" {

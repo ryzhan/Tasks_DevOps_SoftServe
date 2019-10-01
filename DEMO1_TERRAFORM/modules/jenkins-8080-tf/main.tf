@@ -31,10 +31,11 @@ resource "google_compute_instance" "jenkins-8080-tf" {
 resource "null_resource" "jenkins-8080-prov" {
  
 connection {
+    type = "ssh"
     user = "erkek"
     host = "${google_compute_instance.jenkins-8080-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
-    agent = true   
+    agent = false   
   } 
 
   provisioner "file" {
@@ -71,10 +72,11 @@ resource "null_resource" "jenkins-8080-cli-unlock" {
 depends_on = ["null_resource.jenkins-8080-prov"]
 
 connection {
+    type = "ssh"
     user = "erkek"
     host = "${google_compute_instance.jenkins-8080-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
-    agent = true   
+    agent = false   
   } 
 
   provisioner "file" {
@@ -110,10 +112,11 @@ resource "null_resource" "jenkins-8080-add-job" {
 depends_on = ["null_resource.jenkins-8080-cli-unlock"]
 
 connection {
+    type = "ssh"
     user = "erkek"
     host = "${google_compute_instance.jenkins-8080-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
-    agent = true   
+    agent = false   
   } 
 
   provisioner "file" {
