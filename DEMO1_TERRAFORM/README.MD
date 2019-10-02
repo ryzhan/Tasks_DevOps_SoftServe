@@ -2,7 +2,8 @@ Created by Yaroslav Ryzhan
 
 ## DEMO 1
 
-### TASK: **Deploy microservice 'Cart' from public open-source on Google Cloud Platform using CI/CD Tool**
+### TASK: 
+* **Deploy microservice 'Cart' from public open-source on Google Cloud Platform using CI/CD Tool**
 
 #### Architecture
 
