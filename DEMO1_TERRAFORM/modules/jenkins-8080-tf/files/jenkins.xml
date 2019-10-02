@@ -32,19 +32,19 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/ryzhan/Tasks_DevOps_SoftServe.git</url>
+          <url>https://github.com/ryzhan/carts.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
         <hudson.plugins.git.BranchSpec>
-          <name>*/jenkins/test-server</name>
+          <name>*/master</name>
         </hudson.plugins.git.BranchSpec>
       </branches>
       <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
       <submoduleCfg class="list"/>
       <extensions/>
     </scm>
-    <scriptPath>DEMO1_TERRAFORM/Jenkinsfile</scriptPath>
+    <scriptPath>Jenkinsfile</scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers/>

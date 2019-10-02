@@ -37,9 +37,9 @@ chmod 700 /var/lib/jenkins/.ssh
 mv /tmp/id_rsa /var/lib/jenkins/.ssh/
 mv /tmp/id_rsa.pub /var/lib/jenkins/.ssh/
 ssh-keyscan -H ${PRODUCTION_NETWORK_IP} >> /var/lib/jenkins/.ssh/known_hosts
+chown jenkins:jenkins /var/lib/jenkins/.ssh /var/lib/jenkins/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa.pub /var/lib/jenkins/.ssh/known_hosts
 chmod 600 /var/lib/jenkins/.ssh/id_rsa
 chmod 600 /var/lib/jenkins/.ssh/id_rsa.pub
-chown jenkins:jenkins /var/lib/jenkins/.ssh /var/lib/jenkins/.ssh/id_rsa /var/lib/jenkins/.ssh/id_rsa.pub /var/lib/jenkins/.ssh/known_hosts
 exit
 _EOF_
 
