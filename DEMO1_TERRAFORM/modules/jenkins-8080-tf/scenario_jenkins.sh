@@ -23,15 +23,14 @@ sudo systemctl start jenkins
 sudo systemctl enable jenkins
 
 echo "Jenkins server"
-echo " Jenkins Unlock Key"
+
 
 sudo sh -c "cat << EOF >> /var/lib/jenkins/production_local_ip
 $PRODUCTION_NETWORK_IP
 EOF"
 
 sudo su <<_EOF_
-cat /var/lib/jenkins/secrets/initialAdminPassword
-#useradd -m jenkins
+
 mkdir -p /var/lib/jenkins/.ssh
 chmod 700 /var/lib/jenkins/.ssh
 mv /tmp/id_rsa /var/lib/jenkins/.ssh/
