@@ -25,7 +25,7 @@ variable "zone" {
 
 variable "machine_type" {
   description = "The machine type to create"
-  default     = "g1-small"
+  default     = "n1-standard-1"
 }
 
 variable "disk_image" {
@@ -53,7 +53,7 @@ variable "private_key_path" {
   default     = "./credential/id_rsa"
 }
 
-variable "network_ip_production" {
+variable "network_ip_cart" {
   description = "local ip production server"
   default     = ""
 }

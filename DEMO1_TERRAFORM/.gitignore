@@ -1,10 +1,7 @@
 arctic-plasma-248716-9bc5c7955a26.json
+if-101-demo1-db9acd315b1f.json
 terraform.tfstate
 terraform.tfstate.backup
-deploy.key
-deploy.pub.key
 id_rsa
 id_rsa.pub
-jenkins.tar.gz
 **/.terraform/*
-
