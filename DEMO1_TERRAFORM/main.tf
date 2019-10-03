@@ -18,5 +18,5 @@ module "production-tf" {
 module "jenkins-8080-tf" {
   source = "./modules/jenkins-8080-tf"  
   instance_name = "jenkins-8080-tf"
-  network_ip_production = module.production-tf.network_ip_production
+  network_ip_cart = module.cart-tf.network_ip_cart
 }
