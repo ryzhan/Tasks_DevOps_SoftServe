@@ -9,9 +9,9 @@ module "mongo-db-tf" {
   instance_name = "mongo-db-tf"
 }
 
-module "production-tf" {
-  source = "./modules/production-tf"  
-  instance_name = "production-tf"
+module "cart-tf" {
+  source = "./modules/cart-tf"  
+  instance_name = "cart-tf"
   network_ip_mongo = module.mongo-db-tf.network_ip_mongo
 }
 

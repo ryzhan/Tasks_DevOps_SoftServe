@@ -53,7 +53,7 @@ variable "private_key_path" {
   default     = "./credential/id_rsa"
 }
 
-variable "network_ip_production" {
+variable "network_ip_cart" {
   description = "local ip production server"
   default     = ""
 }

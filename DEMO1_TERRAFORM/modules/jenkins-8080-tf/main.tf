@@ -60,7 +60,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/scenario_jenkins.sh",
-      "sudo ~/scenario_jenkins.sh ${var.network_ip_production}",
+      "sudo ~/scenario_jenkins.sh ${var.network_ip_cart}",
     ]
   
   }
@@ -100,7 +100,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
-      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_production}"
+      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_cart}"
     ]
   
   }
