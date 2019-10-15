@@ -25,8 +25,8 @@ COPY moodle.sii2019devops.com.conf /etc/httpd/conf.d/moodle.sii2019devops.com.co
 COPY add_opcache.sh /tmp/add_opcache.sh
 RUN /tmp/add_opcache.sh
 
-RUN /usr/bin/php /var/www/html/moodle/admin/cli/install.php --wwwroot='http://192.168.56.10' --dataroot='/var/www/html/moodledata' --dbtype='pgsql' --dbhost='192.168.56.20' --dbname='moodle' --dbuser='moodle_devops' --dbpass='1qaz2wsx' --dbport='5432'  --shortname='moodle.local' --adminuser='admin' --adminpass='1qaz2wsx' --adminemail='admin@yo.lo' --fullname='moodle.IF-101-devops' --non-interactive --agree-license /
-    && chmod o+r /var/www/html/moodle/config.php
+RUN /usr/bin/php /var/www/html/moodle/admin/cli/install.php --wwwroot='http://192.168.56.10' --dataroot='/var/www/html/moodledata' --dbtype='pgsql' --dbhost='192.168.56.20' --dbname='moodle' --dbuser='moodle_devops' --dbpass='1qaz2wsx' --dbport='5432'  --shortname='moodle.local' --adminuser='admin' --adminpass='1qaz2wsx' --adminemail='admin@yo.lo' --fullname='moodle.IF-101-devops' --non-interactive --agree-license 
+RUN chmod o+r /var/www/html/moodle/config.php
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 
