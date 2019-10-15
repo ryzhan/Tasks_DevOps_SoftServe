@@ -10,7 +10,7 @@ cd Tasks_DevOps_SoftServe
 git checkout moodle/docker
 cd Task2
 docker build -t moodle/postgres .
-docker run -d --name pg -p 5432:5432 moodle/postgres
+docker run -d --name pg --restart always -p 5432:5432 moodle/postgres
 #docker run -t -d --name pg1 -p 5432:5432 moodle/postgres
 docker ps -a
 
