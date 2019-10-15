@@ -1,24 +1,49 @@
-FROM centos:centos7
-ENV DB_ROOT_PWD=1qaz2wsx
-ENV DB_USER_PWD=1qaz2wsx
+#
+# example Dockerfile for https://docs.docker.com/engine/examples/postgresql_service/
+#
 
-RUN yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm -y
-RUN yum install postgresql94-server postgresql94-contrib postgresql94-libs postgresql94-devel -y
-USER root
-RUN /usr/pgsql-9.4/bin/postgresql94-setup initdb
-RUN systemctl start postgresql-9.4.service
-RUN systemctl enable postgresql-9.4.service
+FROM ubuntu:16.04
+
+# Add the PostgreSQL PGP key to verify their Debian packages.
+# It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+
+# Add PostgreSQL's repository. It contains the most recent stable release
+#     of PostgreSQL, ``9.3``.
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# Install ``python-software-properties``, ``software-properties-common`` and PostgreSQL 9.3
+#  There are some warnings (in red) that show up during the build. You can hide
+#  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4
+
+# Note: The official Debian and Ubuntu images automatically ``apt-get clean``
+# after each ``apt-get``
+
+# Run the rest of the commands as the ``postgres`` user created by the ``postgres-9.3`` package when it was ``apt-get installed``
 USER postgres
-RUN psql -v ON_ERROR_STOP=1 --username postgres <<-EOSQL \n\
-    CREATE USER moodle_devops WITH PASSWORD '1qaz2wsx'; \n\
-    CREATE DATABASE moodle WITH OWNER moodle_devops ENCODING 'UTF8' LC_COLLATE='en_US.UTF-8' LC_CTYPE='en_US.UTF-8' TEMPLATE=template0; \n\
-    EOSQL
-RUN sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '192.168.56.20'/" /var/lib/pgsql/9.4/data/postgresql.conf \
-RUN echo "host all all 192.168.56.10/32 md5" >> /var/lib/pgsql/9.4/data/pg_hba.conf \
-USER root
-RUN systemctl restart postgresql-9.4.service
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
-#CMD tail -f /dev/null
 
+# Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
+# then create a database `docker` owned by the ``docker`` role.
+# Note: here we use ``&&\`` to run commands one after the other - the ``\``
+#       allows the RUN command to span multiple lines.
+RUN    /etc/init.d/postgresql start &&\
+    psql --command "CREATE USER moodle_devops WITH SUPERUSER PASSWORD '1qaz2wsx';" &&\
+    createdb -O moodle_devops moodle
+
+# Adjust PostgreSQL configuration so that remote connections to the
+# database are possible.
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
+
+# And add ``listen_addresses`` to ``/etc/postgresql/9.4/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
+
+# Expose the PostgreSQL port
 EXPOSE 5432
+
+# Add VOLUMEs to allow backup of config, logs and databases
+VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+
+# Set the default command to run when starting the container
+CMD ["/usr/lib/postgresql/9.4/bin/postgres", "-D", "/var/lib/postgresql/9.4/main", "-c", "config_file=/etc/postgresql/9.4/main/postgresql.conf"]
+
