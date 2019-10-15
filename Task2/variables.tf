@@ -1,6 +1,6 @@
 variable "credentials" {
   description = "CREDENTIALS_JSON_PATH"
-  default = "./credential/if-101-demo1-db9acd315b1f.json"
+  default = "./credential/if-101-demo1-0d764faa1e14.json"
 }
 
 variable "region" {
