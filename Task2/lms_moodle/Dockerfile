@@ -24,7 +24,7 @@ COPY moodle.sii2019devops.com.conf /etc/httpd/conf.d/moodle.sii2019devops.com.co
 
 COPY add_opcache.sh /tmp/add_opcache.sh
 RUN /tmp/add_opcache.sh
-ARG IP_DOCKER_LMS=localhost
+ARG IP_DOCKER_DB=localhost
 ENV MOODLE_DB_USER=moodle_devops
 ENV MOODLE_DB_PASSWORD=1qaz2wsx
 ENV MOODLE_DB_DATABASE=moodle
