@@ -4,6 +4,5 @@ ENV MOODLE_DB_USER=moodle_devops/
 ENV MOODLE_DB_PASSWORD=1qaz2wsx/
 ENV MOODLE_DB_DATABASE=moodle/
 ENV POSTGRES_USER=postgres
-CMD tail -f /dev/null
 ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 5432
