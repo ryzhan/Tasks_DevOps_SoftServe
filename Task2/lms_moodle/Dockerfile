@@ -11,8 +11,6 @@ RUN yum --enablerepo=epel,remi install httpd -y \
     && yum install php-pecl-zip php-intl -y \
     && yum install php-pgsql -y
 
-RUN /usr/sbin/httpd -D FOREGROUND
-
 RUN yum install wget -y \
     && wget https://download.moodle.org/download.php/direct/stable37/moodle-3.7.1.tgz -q \
     && tar -zxvf moodle-3.7.1.tgz -C /var/www/html \
