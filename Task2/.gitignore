@@ -1,52 +1,29 @@
-# OS-specific
-.DS_Store
+# Local .terraform directories
+**/.terraform/*
 
-# Editor swapfiles
-.*.sw?
-*~
+# .tfstate files
+*.tfstate
+*.tfstate.*
 
-# Vagrant stuff
-acceptance_config.yml
-boxes/*
-/.vagrant
-/website/.vagrant
-/website/build
-/vagrant-spec.config.rb
-test/vagrant-spec/.vagrant/
+# Crash log files
+crash.log
 
-# Bundler/Rubygems
-*.gem
-.bundle
-pkg/*
-tags
-/Gemfile.lock
-test/tmp/
-vendor/
-/exec
-.ruby-bundle
+# Ignore any .tfvars files that are generated automatically for each Terraform run. Most
+# .tfvars files are managed as part of configuration and so should be included in
+# version control.
+#
+# example.tfvars
 
-# Documentation
-_site/*
-.yardoc/
-doc/
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# Python
-*.pyc
+# Include override files you do wish to add to version control using negated pattern
+#
+# !example_override.tf
 
-# Rubinius
-*.rbc
-
-# IDE junk
-.idea/*
-*.iml
-.project
-
-# Ruby Managers
-.rbenv
-.rbenv-gemsets
-.ruby-gemset
-.ruby-version
-.rvmrc
-
-# Box storage for spec
-test/vagrant-spec/boxes/*.box
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
