@@ -12,8 +12,7 @@ cd Task2
 docker build -t moodle/postgres ./db_postgres
 docker run -d --name pg --restart always -p 5432:5432 moodle/postgres
 docker ps -a
-
 export IP_DB=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" pg)
-docker build --build-arg IP_DOCKER_DB=$IP_DB -t moodle/lms -f ./lms_moodle
+docker build --build-arg IP_DOCKER_DB=$IP_DB -t moodle/lms ./lms_moodle
 docker run -d --name lms --restart always -p 80:80 moodle/lms
 docker ps -a
