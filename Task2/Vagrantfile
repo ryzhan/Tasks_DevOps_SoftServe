@@ -14,14 +14,14 @@ Vagrant.configure("2") do |config|
     db.vm.provision "shell", path: "./db_postgres/scenario_db_docker.sh"
   end
 
-  config.vm.define "Lms_moodle" do |web|
-    web.vm.box = "centos/7"
-    web.vm.provider "virtualbox" do |vb|
-    vb.name = "Lms_moodle"
-    end
-    web.vm.network "private_network", ip: "192.168.56.10"
-    web.vm.provision "shell", path: "./lms_moodle/scenario_lms_docker.sh"
-  end
+  #config.vm.define "Lms_moodle" do |web|
+  #  web.vm.box = "centos/7"
+  #  web.vm.provider "virtualbox" do |vb|
+  #  vb.name = "Lms_moodle"
+  #  end
+  #  web.vm.network "private_network", ip: "192.168.56.10"
+  #  web.vm.provision "shell", path: "./lms_moodle/scenario_lms_docker.sh"
+  #end
 
 end
 

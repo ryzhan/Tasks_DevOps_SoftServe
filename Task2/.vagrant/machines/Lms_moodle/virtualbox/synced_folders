@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/erkek/SoftServe-if-101-devops/Tasks_DevOps_SoftServe/Task2","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

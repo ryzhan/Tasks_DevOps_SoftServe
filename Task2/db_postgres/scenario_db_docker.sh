@@ -7,13 +7,13 @@ systemctl enable docker.service
 yum install git -y
 git clone https://github.com/ryzhan/Tasks_DevOps_SoftServe.git
 cd Tasks_DevOps_SoftServe
-git checkout moodle/docker
-cd Task2/db_postgres
-docker build -t moodle/postgres .
+git checkout docker
+cd Task2
+docker build -t moodle/postgres ./db_postgres
 docker run -d --name pg --restart always -p 5432:5432 moodle/postgres
-#docker run -t -d --name pg1 -p 5432:5432 moodle/postgres
 docker ps -a
 
-
-#sed -i "s/listen_addresses = '*'/listen_addresses = '192.168.56.20'/" /var/lib/postgresql/data/postgresql.conf
-#echo "host all all 192.168.56.10/32 md5" >> /var/lib/postgresql/data/pg_hba.conf
+export IP_DB=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" pg)
+docker build --build-arg IP_DOCKER_DB=$IP_DB -t moodle/lms -f ./lms_moodle
+docker run -d --name lms --restart always -p 80:80 moodle/lms
+docker ps -a
