@@ -13,6 +13,6 @@ docker ps -a
 IP_LMS=$1
 echo "nat ip moodle $IP_LMS"
 export IP_DB=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" pg)
-docker build --build-arg IP_DOCKER_DB=$IP_DB, IP_DOCKER_LMS=${IP_LMS} -t moodle/lms ./lms_moodle
+docker build --build-arg IP_DOCKER_DB=$IP_DB,IP_DOCKER_LMS=$IP_LMS -t moodle/lms ./lms_moodle
 docker run -d --name lms --restart always -p 80:80 moodle/lms
 docker ps -a
