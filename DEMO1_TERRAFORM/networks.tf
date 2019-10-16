@@ -1,14 +1,10 @@
-resource "google_compute_network" "my_network" {
-  name = "my-net"
-  auto_create_subnetworks = "true"
- # depends_on = ["google_compute_network.my_network"]
-}
+
 
 resource "google_compute_firewall" "allow-ssh" {
   name    = "ssh-firewall"
   network = var.network
 
-  depends_on = ["google_compute_network.my_network"]
+  #depends_on = ["google_compute_network.my_network"]
 
   target_tags = ["mongo-tf","production-tf","jenkins-8080-tf"]
 
@@ -26,7 +22,7 @@ resource "google_compute_firewall" "mongo-db-tf" {
   name    = "mongo-tf"
   network = var.network
   
-  depends_on = ["google_compute_network.my_network"]
+  #depends_on = ["google_compute_network.my_network"]
 
   target_tags = ["mongo-tf"]
 
@@ -43,7 +39,7 @@ resource "google_compute_firewall" "production-tf" {
   name    = "production-tf"
   network = var.network
 
-  depends_on = ["google_compute_network.my_network"]
+  #depends_on = ["google_compute_network.my_network"]
 
   target_tags = ["production-tf"]
 
@@ -60,7 +56,7 @@ resource "google_compute_firewall" "jenkins-8080-tf" {
   name    = "jenkins-8080-tf"
   network = var.network
 
-  depends_on = ["google_compute_network.my_network"]
+  #depends_on = ["google_compute_network.my_network"]
 
   target_tags = ["jenkins-8080-tf"]
 

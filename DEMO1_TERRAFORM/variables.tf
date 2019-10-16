@@ -1,6 +1,6 @@
 variable "credentials" {
   description = "CREDENTIALS_JSON_PATH"
-  default = "/home/erkek/SoftServe-if-101-devops/Tasks_DevOps_SoftServe/DEMO1_TERRAFORM/credential/arctic-plasma-248716-9bc5c7955a26.json"
+  default = "./credential/if-101-demo1-db9acd315b1f.json"
 }
 
 variable "region" {
@@ -10,7 +10,7 @@ variable "region" {
 
 variable "project" {
   description = "Project ID"
-  default     = "arctic-plasma-248716"
+  default     = "if-101-demo1"
 }
 
 variable "network" {

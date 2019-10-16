@@ -30,22 +30,23 @@ resource "google_compute_instance" "mongo-db-tf" {
 resource "null_resource" "mongo-db-prov" {
  
 connection {
+    type = "ssh"
     user = "erkek"
     host = "${google_compute_instance.mongo-db-tf.network_interface.0.access_config.0.nat_ip}"
     private_key = "${file(var.private_key_path)}"
-    agent = true   
+    agent = false   
   } 
   provisioner "file" {
     source      = "./modules/mongo-db-tf/scenario_mongo.sh"
-    destination = "~/scenario_mongo.sh"
+    destination = "/tmp/scenario_mongo.sh"
 
   }
 
   provisioner "remote-exec" {
     inline = [
       #"export MONGO_NETWORK_IP=${var.network_ip}",
-      "chmod +x ~/scenario_mongo.sh",
-      "sudo ~/scenario_mongo.sh ${google_compute_instance.mongo-db-tf.network_interface.0.network_ip}",
+      "chmod +x /tmp/scenario_mongo.sh",
+      "sudo /tmp/scenario_mongo.sh ${google_compute_instance.mongo-db-tf.network_interface.0.network_ip}",
     ]
   
   }

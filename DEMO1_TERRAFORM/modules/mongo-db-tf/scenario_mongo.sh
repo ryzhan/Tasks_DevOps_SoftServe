@@ -20,4 +20,4 @@ sudo systemctl start mongod
 echo "All Done"
 echo "Mongo Db server"
 echo $MONGO_NETWORK_IP
-#https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/
+
