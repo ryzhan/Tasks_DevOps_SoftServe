@@ -7,11 +7,12 @@ git clone https://github.com/ryzhan/Tasks_DevOps_SoftServe.git
 cd Tasks_DevOps_SoftServe
 git checkout moodle/terraform
 cd Task2
-export IP_LMS=$1
-docker build --build-arg IP_DOCKER_LMS=${IP_LMS} -t moodle/postgres ./db_postgres
+docker build -t moodle/postgres ./db_postgres
 docker run -d --name pg --restart always -p 5432:5432 moodle/postgres
 docker ps -a
+IP_LMS=$1
+echo "nat ip moodle $IP_LMS"
 export IP_DB=$(docker inspect -f "{{ .NetworkSettings.IPAddress }}" pg)
-docker build --build-arg IP_DOCKER_DB=$IP_DB -t moodle/lms ./lms_moodle
+docker build --build-arg IP_DOCKER_DB=$IP_DB, IP_DOCKER_LMS=${IP_LMS} -t moodle/lms ./lms_moodle
 docker run -d --name lms --restart always -p 80:80 moodle/lms
 docker ps -a

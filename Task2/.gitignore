@@ -1,5 +1,11 @@
 if-101-demo1-0d764faa1e14.json
-
+arctic-plasma-248716-9bc5c7955a26.json
+if-101-demo1-db9acd315b1f.json
+terraform.tfstate
+terraform.tfstate.backup
+id_rsa
+id_rsa.pub
+**/.terraform/*
 
 # Local .terraform directories
 **/.terraform/*

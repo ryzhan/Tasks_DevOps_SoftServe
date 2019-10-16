@@ -32,7 +32,7 @@ ENV MOODLE_DB_DATABASE=moodle
 ENV POSTGRES_USER=postgres
 #ENV IP_DOCKER_LMS=http://192.168.56.20
 #ENV IP_DOCKER_DB=192.168.56.20
-RUN /usr/bin/php /var/www/html/moodle/admin/cli/install.php --wwwroot="$IP_DOCKER_LMS" --dataroot='/var/www/html/moodledata' --dbtype='pgsql' --dbhost="$IP_DOCKER_DB" --dbname='moodle' --dbuser='moodle_devops' --dbpass="$MOODLE_DB_PASSWORD" --dbport='5432'  --shortname='moodle.local' --adminuser='admin' --adminpass='1qaz2wsx' --adminemail='admin@yo.lo' --fullname='moodle.IF-101-devops' --non-interactive --agree-license 
+RUN /usr/bin/php /var/www/html/moodle/admin/cli/install.php --wwwroot="http://$IP_DOCKER_LMS" --dataroot='/var/www/html/moodledata' --dbtype='pgsql' --dbhost="$IP_DOCKER_DB" --dbname='moodle' --dbuser='moodle_devops' --dbpass="$MOODLE_DB_PASSWORD" --dbport='5432'  --shortname='moodle.local' --adminuser='admin' --adminpass='1qaz2wsx' --adminemail='admin@yo.lo' --fullname='moodle.IF-101-devops' --non-interactive --agree-license 
 RUN chmod o+r /var/www/html/moodle/config.php
 
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
