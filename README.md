@@ -7,10 +7,10 @@
   - `Create and configure Build Server Jenkins, Production Server and MongoDB Server using Terraform`
   
 ### Task2:
-
-  ``` 
-  Create Dockerfile with description of images for deploying LMS Moodle
-  Сontainer #0: for RDBMS (MySQL [Maria DB], Postgres)
-  Container #1: for Web-Server + PHP + Moodle Sources 
-  ```
+    -
+    ``` 
+    Create Dockerfile with description of images for deploying LMS Moodle
+      - Сontainer #0: for RDBMS (MySQL [Maria DB], Postgres)
+      - Container #1: for Web-Server + PHP + Moodle Sources 
+    ```
  
