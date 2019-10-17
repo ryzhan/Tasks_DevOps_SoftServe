@@ -8,7 +8,7 @@
   
 ### Task2:
 
-    ``` 
+    ```
     Create Dockerfile with description of images for deploying LMS Moodle
       - Сontainer #0: for RDBMS (MySQL [Maria DB], Postgres)
       - Container #1: for Web-Server + PHP + Moodle Sources 
