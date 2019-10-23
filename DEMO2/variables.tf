@@ -28,7 +28,4 @@ variable "subnetwork_project" {
   default     = ""
 }
 
-variable "network_ip_mongo" {
-  description = "local ip mongo db"
-  default     = ""
-}
+

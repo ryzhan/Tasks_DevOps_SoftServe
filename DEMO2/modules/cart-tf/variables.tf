@@ -58,7 +58,7 @@ variable "deploy_public_key_path" {
   default     = "./credential/deploy.pub"
 }
 
-variable "network_ip_mongo" {
+variable "network_ip_db" {
   description = "local ip mongo db"
   default     = ""
 }

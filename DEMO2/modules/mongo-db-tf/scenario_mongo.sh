@@ -1,23 +1,25 @@
 #!/bin/bash
 MONGO_NETWORK_IP=$1
-#sudo yum update -y
+sudo yum update -y
+yum provides '*/applydeltarpm'
+yum install deltarpm -y
 
-sudo sh -c 'cat << EOF >> /etc/yum.repos.d/mongodb-org-4.2.repo
-[mongodb-org-4.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
-EOF'
-
-sudo yum install -y -q mongodb-org 
-
-sudo sed -i "s/127.0.0.1/${MONGO_NETWORK_IP}, 127.0.0.1/" /etc/mongod.conf
-
-sudo systemctl start mongod
-
+sudo su <<_EOF_
+useradd -m jenkins
+mkdir -p /home/jenkins/.ssh
+chmod 700 /home/jenkins/.ssh
+cat /tmp/id_rsa.pub >> /home/erkek/.ssh/authorized_keys
+cat /tmp/id_rsa.pub >> /home/jenkins/.ssh/authorized_keys
+chown jenkins:jenkins /home/jenkins/.ssh/ /home/jenkins/.ssh/authorized_keys
+usermod -a -G adm,video,google-sudoers jenkins
+_EOF_
+echo "Add epel-release"
+sudo yum install epel-release -y
+#echo "Install pip"
+#sudo yum install python-pip -y
+#sudo pip install --upgrade pip
+#echo "Install pip docker"
+#sudo pip install docker
 echo "All Done"
-echo "Mongo Db server"
-echo $MONGO_NETWORK_IP
+
 

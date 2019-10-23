@@ -36,6 +36,13 @@ connection {
     private_key = "${file(var.private_key_path)}"
     agent = false   
   } 
+
+  provisioner "file" {
+    source      = "./credential/id_rsa.pub"
+    destination = "/tmp/id_rsa.pub"
+
+  }
+
   provisioner "file" {
     source      = "./modules/mongo-db-tf/scenario_mongo.sh"
     destination = "/tmp/scenario_mongo.sh"

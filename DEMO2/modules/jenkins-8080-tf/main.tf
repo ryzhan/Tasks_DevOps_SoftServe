@@ -51,16 +51,21 @@ connection {
   }
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"
-    destination = "~/scenario_jenkins.sh"
+      source      = "./modules/jenkins-8080-tf/ansible/ansible.tar"
+      destination = "/tmp/ansible.tar"
 
-  }
+    }
 
-  
+  provisioner "file" {
+      source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"
+      destination = "~/scenario_jenkins.sh"
+
+    }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/scenario_jenkins.sh",
-      "sudo ~/scenario_jenkins.sh ${var.network_ip_cart}",
+      "~/scenario_jenkins.sh ${var.network_ip_cart} ${var.network_ip_db}",
     ]
   
   }

@@ -1,0 +1,13 @@
+---
+# vars file for install-pip-docker
+user_name: erkek
+ansible_ssh_privat_key_file: /home/erkek/.ssh/
+
+# Versions for the python packages that are installed installed
+pip_version_pip: latest
+pip_version_setuptools: latest
+pip_version_docker: latest
+
+epel_repo_url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+epel_repo_gpg_key_url: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}"
+epel_repofile_path: "/etc/yum.repos.d/epel.repo"

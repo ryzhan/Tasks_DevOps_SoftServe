@@ -1,0 +1,17 @@
+---
+
+- name: Install docker and git
+  gather_facts: No
+  hosts: server_all
+
+  roles:
+    - install-docker
+    - install-git
+
+- name: Create and run carts-db docker container
+  gather_facts: No
+  hosts: db
+
+  roles:
+    - install-pip-docker
+    - docker-carts-db

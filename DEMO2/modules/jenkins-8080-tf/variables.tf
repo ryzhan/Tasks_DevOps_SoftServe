@@ -57,3 +57,8 @@ variable "network_ip_cart" {
   description = "local ip production server"
   default     = ""
 }
+
+variable "network_ip_db" {
+  description = "local ip production server"
+  default     = ""
+}

@@ -1,0 +1,55 @@
+---
+# tasks file for install-docker
+
+- name: Install yum utils
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Add Docker repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+  become: yes
+
+- name: Install Docker
+  package:
+    name: docker-ce
+    state: latest
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Add user erkek to docker group
+  user:
+    name: erkek
+    groups: docker
+    append: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Add user jenkins to docker group
+  user:
+    name: jenkins
+    groups: docker
+    append: yes
+  become: yes
+  become_user: root
+  become_method: sudo

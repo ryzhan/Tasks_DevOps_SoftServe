@@ -54,7 +54,7 @@ connection {
     inline = [
       #"export MONGO_NETWORK_IP=${var.network_ip}",
       "chmod +x ~/scenario_cart.sh",
-      "sudo ~/scenario_cart.sh ${var.network_ip_mongo}",
+      "sudo ~/scenario_cart.sh ${var.network_ip_db}",
     ]
   
   }

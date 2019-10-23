@@ -1,0 +1,14 @@
+---
+# tasks file for docker-user-db
+
+- name: Create and run carts-db container
+  docker_container:
+    name: carts-db
+    image: "mongo:latest"
+    ports:
+     - "27000:27017"
+    restart_policy: always
+    user: root
+  become: yes
+  become_user: root
+  become_method: sudo
