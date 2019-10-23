@@ -11,8 +11,6 @@ resource "google_compute_instance" "jenkins-8080-tf" {
 
   metadata_startup_script = ""
 
-  #depends_on = ["google_compute_firewall.production-tf"]
-
   boot_disk {
     initialize_params {
       image = var.disk_image
@@ -65,7 +63,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/scenario_jenkins.sh",
-      "~/scenario_jenkins.sh ${var.network_ip_cart} ${var.network_ip_db}",
+      "~/scenario_jenkins.sh ${var.network_ip_app} ${var.network_ip_db}",
     ]
   
   }
@@ -105,7 +103,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
-      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_cart}"
+      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_app}"
     ]
   
   }

@@ -15,3 +15,5 @@
   roles:
     - install-pip-docker
     - docker-carts-db
+    - docker-catalogue-db
+    - docker-user-db

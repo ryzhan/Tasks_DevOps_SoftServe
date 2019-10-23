@@ -1,2 +1,60 @@
 ---
 # tasks file for docker-user-db
+
+
+# - name: Copy Dockerfile to db server
+#   template:
+#     src: "{{ role_path }}/templates/Dockerfile"
+#     dest: /opt/user-db/Dockerfile
+#   become: yes
+#   become_user: root
+#   become_method: sudo
+
+# - name: Copy files user-db
+#   copy:
+#     src: "{{ role_path }}/files/"
+#     dest: /opt/user-db/
+# #  with_items:
+# #    - { 'accounts-create.js' }
+# #    - { 'address-insert.js' }
+# #    - { 'card-insert.js' }
+# #    - { 'customer-insert.js' }
+# #    - { 'mongo_create_insert.sh '}
+#   become: yes
+#   become_user: root
+#   become_method: sudo
+# - name: Git clone user-db
+#   git: 
+#     repo: 'https://github.com/leucos/ansible-tuto-demosite.git' 
+#     dest: /opt/user
+
+- name: Git clone user-db
+  git:
+    repo: 'https://github.com/ryzhan/user.git'
+    dest: /opt/user
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Build image user-db
+  docker_image:
+    name: user-db
+    build:
+      path: /opt/user/docker/user-db
+      pull: yes
+    source: build
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Run user-db container
+  docker_container:
+    name: user-db
+    image: "user-db"
+    ports:
+      - "27017:27017"
+    restart_policy: always
+    user: root
+  become: yes
+  become_user: root
+  become_method: sudo

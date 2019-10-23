@@ -6,7 +6,7 @@ resource "google_compute_firewall" "allow-ssh" {
 
   #depends_on = ["google_compute_network.my_network"]
 
-  target_tags = ["mongo-tf","production-tf","jenkins-8080-tf"]
+  target_tags = ["server-db","app-server","jenkins-8080-tf"]
 
   allow {
     protocol = "tcp"
@@ -18,34 +18,34 @@ resource "google_compute_firewall" "allow-ssh" {
   }
 }
 
-resource "google_compute_firewall" "mongo-db-tf" {
-  name    = "mongo-tf"
+resource "google_compute_firewall" "server-db" {
+  name    = "server-db"
   network = var.network
   
   #depends_on = ["google_compute_network.my_network"]
 
-  target_tags = ["mongo-tf"]
+  target_tags = ["server-db"]
 
   allow {
     protocol = "tcp"
-    ports    = ["27017"]
+    ports    = ["27017","3306","27000"]
   }
   
   #source_ranges = ["output.network_ip_production"]
 
 }
 
-resource "google_compute_firewall" "production-tf" {
-  name    = "production-tf"
+resource "google_compute_firewall" "app-server" {
+  name    = "app-server"
   network = var.network
 
   #depends_on = ["google_compute_network.my_network"]
 
-  target_tags = ["production-tf"]
+  target_tags = ["app-server"]
 
   allow {
     protocol = "tcp"
-    ports    = ["8081"]
+    ports    = ["8081","8080","8082"]
   }
   
   #source_ranges = ["output.network_ip_production"]

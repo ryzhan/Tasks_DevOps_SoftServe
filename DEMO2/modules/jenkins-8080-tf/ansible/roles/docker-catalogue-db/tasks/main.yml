@@ -1,2 +1,42 @@
 ---
 # tasks file for docker-catalogue-db
+
+- name: Copy Dockerfile to db server
+  template:
+    src: "{{ role_path }}/templates/Dockerfile"
+    dest: /opt/catalogue-db/Dockerfile
+#    remote_src=yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Copy dump mysql
+  copy:
+    src: "{{ role_path }}/files/data/dump.sql"
+    dest: /opt/catalogue-db/data
+#    with_items:
+#      - "dump.sql"
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Build image catalogue-db
+  docker_image:
+    name: catalogue-db
+    build:
+      path: /opt/catalogue-db
+      pull: yes
+    source: build
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Run catalogue-db container
+  docker_container:
+    name: catalogue-db
+    image: "catalogue-db"
+    ports:
+     - "3306:3306"
+    restart_policy: always
+    user: root
+  become: yes
