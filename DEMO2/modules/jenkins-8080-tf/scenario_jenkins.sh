@@ -11,6 +11,7 @@ sudo yum install java-1.8.0-openjdk -y -q
 sudo yum install maven -y -q
 sudo sh -c 'cat << EOF >> /etc/profile.d/maven.sh
 export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-1.el7_7.x86_64/jre/
+#export JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.232.b09-0.el7_7.x86_64
 export M2_HOME=/usr/share/maven/
 export MAVEN_HOME=/usr/share/maven/
 export PATH=${M2_HOME}/bin:${PATH}
