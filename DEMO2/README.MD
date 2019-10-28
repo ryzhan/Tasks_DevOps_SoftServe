@@ -1,9 +1,10 @@
 Created by Yaroslav Ryzhan
 
-# DEMO 1
+# DEMO 2
 
 ### TASK: 
-* **Deploy microservice 'Cart' from public open-source on Google Cloud Platform using CI/CD Tool**
+* **Deploy 'Front-end' , microservices 'Catalogue' and 'Cart' from public open-source on Google Cloud Platform using tool:**
+* **CI/CD - jenkins, ansible, terraform**
 
 
 ## [Sock Shop : A Microservice Demo Application](https://github.com/microservices-demo)
