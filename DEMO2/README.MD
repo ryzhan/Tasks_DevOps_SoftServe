@@ -21,7 +21,7 @@ It is built using [Spring Boot](http://projects.spring.io/spring-boot/), [Go kit
 
 ## Architecture
 
-![Architecture diagram](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO1_TERRAFORM/images/Architecture.png  "Architecture")
+![Architecture diagram](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO2/images/Architecture.png  "Architecture")
 
 
 
