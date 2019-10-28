@@ -14,6 +14,9 @@ chown jenkins:jenkins /home/jenkins/.ssh/ /home/jenkins/.ssh/authorized_keys
 usermod -a -G adm,video,google-sudoers jenkins
 _EOF_
 
+sudo chown jenkins:jenkins /tmp/*.sh
+sudo chmod +x /tmp/*.sh
+ls -la /tmp
 echo "All Done"
 
 

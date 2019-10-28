@@ -48,6 +48,30 @@ connection {
 
   }
 
+  provisioner "file" {
+    source      = "./modules/app-demo2/files/check-front-end.sh"
+    destination = "/tmp/check-front-end.sh"
+
+  }
+
+  provisioner "file" {
+    source      = "./modules/app-demo2/files/check-catalogue.sh"
+    destination = "/tmp/check-catalogue.sh"
+
+  }
+
+  provisioner "file" {
+    source      = "./modules/app-demo2/files/check-user.sh"
+    destination = "/tmp/check-user.sh"
+
+  }
+
+  provisioner "file" {
+    source      = "./modules/app-demo2/files/check-carts.sh"
+    destination = "/tmp/check-carts.sh"
+
+  }
+
   provisioner "remote-exec" {
     inline = [
       #"export MONGO_NETWORK_IP=${var.network_ip}",

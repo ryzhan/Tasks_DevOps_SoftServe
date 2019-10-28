@@ -5,15 +5,26 @@
   hosts: server_all
 
   roles:
+    - update-centos
     - install-docker
     - install-git
-
-- name: Create and run carts-db docker container
+    - install-pip-docker
+    
+- name: Create and run db docker containers on db-server
   gather_facts: No
   hosts: db
 
   roles:
-    - install-pip-docker
     - docker-carts-db
     - docker-catalogue-db
     - docker-user-db
+
+- name: Create docker containers on app-server
+  gather_facts: No
+  hosts: app
+  
+  roles:
+    - add-docker-network-and-volumes
+#    - docker-catalogue
+#    - docker-user
+#    - docker-carts

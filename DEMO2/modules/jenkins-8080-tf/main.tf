@@ -123,15 +123,31 @@ connection {
   } 
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/files/jenkins.xml"
-    destination = "~/jenkins.xml"
+    source      = "./modules/jenkins-8080-tf/files/front-end.xml"
+    destination = "~/front-end.xml"
+  }
 
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/catalogue.xml"
+    destination = "~/catalogue.xml"
+  }  
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/user.xml"
+    destination = "~/user.xml"
   }
   
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/carts.xml"
+    destination = "~/carts.xml"
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job JenkinsDemo  < jenkins.xml"
-      #"sudo systemctl restart jenkins"
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job front-end  < front-end.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job catalogue  < catalogue.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job user  < user.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job carts  < carts.xml"
     ]
   
   }
