@@ -4,9 +4,9 @@ Created by Yaroslav Ryzhan
 
 ### TASK: 
 * **Deploy 'Front-end' , microservices 'Catalogue' and 'Cart' from public open-source on Google Cloud Platform using tool:**
- * **- CI/CD - jenkins
-     - ansible
-     - terraform**
+   * **CI/CD(Jenkins or TeamCity)** 
+   * **Ansible**
+   * **Terraform**
 
 
 ## [Sock Shop : A Microservice Demo Application](https://github.com/microservices-demo)
