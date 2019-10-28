@@ -4,19 +4,20 @@ provider "google" {
   region      = var.region
 }
 
-module "mongo-db-tf" {
-  source = "./modules/mongo-db-tf"  
-  instance_name = "mongo-db-tf"
+module "server-db-demo2" {
+  source = "./modules/server-db-demo2"  
+  instance_name = "server-db-demo2"
 }
 
-module "cart-tf" {
-  source = "./modules/cart-tf"  
-  instance_name = "cart-tf"
-  network_ip_mongo = module.mongo-db-tf.network_ip_mongo
+module "app-demo2" {
+  source = "./modules/app-demo2"  
+  instance_name = "app-demo2"
+  network_ip_db = module.server-db-demo2.network_ip_db
 }
 
 module "jenkins-8080-tf" {
   source = "./modules/jenkins-8080-tf"  
   instance_name = "jenkins-8080-tf"
-  network_ip_cart = module.cart-tf.network_ip_cart
+  network_ip_app = module.app-demo2.network_ip_app
+  network_ip_db = module.server-db-demo2.network_ip_db
 }

@@ -1,0 +1,4 @@
+---
+# vars file for add-docker-network--and-volumes
+user_name: erkek
+ansible_ssh_privat_key_file: /home/erkek/.ssh/

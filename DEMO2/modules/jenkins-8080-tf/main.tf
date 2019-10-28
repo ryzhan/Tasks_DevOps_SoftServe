@@ -11,8 +11,6 @@ resource "google_compute_instance" "jenkins-8080-tf" {
 
   metadata_startup_script = ""
 
-  #depends_on = ["google_compute_firewall.production-tf"]
-
   boot_disk {
     initialize_params {
       image = var.disk_image
@@ -51,16 +49,21 @@ connection {
   }
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"
-    destination = "~/scenario_jenkins.sh"
+      source      = "./modules/jenkins-8080-tf/ansible/ansible.tar"
+      destination = "/tmp/ansible.tar"
 
-  }
+    }
 
-  
+  provisioner "file" {
+      source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"
+      destination = "~/scenario_jenkins.sh"
+
+    }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x ~/scenario_jenkins.sh",
-      "sudo ~/scenario_jenkins.sh ${var.network_ip_cart}",
+      "~/scenario_jenkins.sh ${var.network_ip_app} ${var.network_ip_db}",
     ]
   
   }
@@ -100,7 +103,7 @@ connection {
   provisioner "remote-exec" {
     inline = [
       "sudo chmod +x /tmp/scenario_jenkins_cli_unlock.sh",
-      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_cart}"
+      "sudo /tmp/scenario_jenkins_cli_unlock.sh ${var.network_ip_app}"
     ]
   
   }
@@ -120,15 +123,31 @@ connection {
   } 
 
   provisioner "file" {
-    source      = "./modules/jenkins-8080-tf/files/jenkins.xml"
-    destination = "~/jenkins.xml"
+    source      = "./modules/jenkins-8080-tf/files/front-end.xml"
+    destination = "~/front-end.xml"
+  }
 
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/catalogue.xml"
+    destination = "~/catalogue.xml"
+  }  
+
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/user.xml"
+    destination = "~/user.xml"
   }
   
+  provisioner "file" {
+    source      = "./modules/jenkins-8080-tf/files/carts.xml"
+    destination = "~/carts.xml"
+  }
+
   provisioner "remote-exec" {
     inline = [
-      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job JenkinsDemo  < jenkins.xml"
-      #"sudo systemctl restart jenkins"
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job front-end  < front-end.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job catalogue  < catalogue.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job user  < user.xml",
+      "sudo java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job carts  < carts.xml"
     ]
   
   }

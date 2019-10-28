@@ -1,0 +1,7 @@
+---
+# tasks file for add-docker-network--and-volumes
+
+- name: Create a network
+  docker_network:
+    name: socks
+    

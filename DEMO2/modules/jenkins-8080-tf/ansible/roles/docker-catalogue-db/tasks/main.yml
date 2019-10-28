@@ -1,0 +1,29 @@
+- name: Git clone user-db
+  git:
+    repo: 'https://github.com/ryzhan/catalogue.git'
+    dest: /opt/catalogue
+    force: yes
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Build image catalogue-db
+  docker_image:
+    name: catalogue-db
+    build:
+      path: /opt/catalogue/docker/catalogue-db
+      pull: yes
+    source: build
+  become: yes
+  become_user: root
+  become_method: sudo
+
+- name: Run catalogue-db container
+  docker_container:
+    name: catalogue-db
+    image: "catalogue-db"
+    ports:
+     - "3306:3306"
+    restart_policy: always
+    user: root
+  become: yes

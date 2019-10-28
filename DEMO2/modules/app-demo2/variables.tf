@@ -25,7 +25,7 @@ variable "zone" {
 
 variable "machine_type" {
   description = "The machine type to create"
-  default     = "n1-standard-1"
+  default     = "g1-small"
 }
 
 variable "disk_image" {
@@ -53,12 +53,12 @@ variable "private_key_path" {
   default     = "./credential/id_rsa"
 }
 
-variable "network_ip_app" {
-  description = "local ip production server"
-  default     = ""
+variable "deploy_public_key_path" {
+  description = "public key for user Erkek"
+  default     = "./credential/deploy.pub"
 }
 
 variable "network_ip_db" {
-  description = "local ip production server"
+  description = "local ip mongo db"
   default     = ""
 }

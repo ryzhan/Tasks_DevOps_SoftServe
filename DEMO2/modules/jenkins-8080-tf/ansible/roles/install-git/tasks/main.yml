@@ -1,0 +1,9 @@
+---
+# tasks file for install-git
+- name: Install git
+  yum:
+    name: git
+    state: latest
+  become: yes
+  become_user: root
+  become_method: sudo
