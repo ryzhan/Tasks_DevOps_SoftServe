@@ -25,8 +25,8 @@ It is built using [Spring Boot](http://projects.spring.io/spring-boot/), [Go kit
 
 ## DEMO1
 
-![Task](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO1_TERRAFORM/images/Task.jpg  "Task image")
+![Task](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO2/images/Task.jpg  "Task image")
 
 ## DEMO2
 
-![Task](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO1_TERRAFORM/images/demo2.jpg  "Demo2 image")
+![Task](https://github.com/ryzhan/Tasks_DevOps_SoftServe/blob/master/DEMO2/images/demo2.jpg  "Demo2 image")
