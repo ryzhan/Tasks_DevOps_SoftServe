@@ -1,0 +1,23 @@
+Change EOL CRLF to LF
+
+in directory:
+
+find . -type f -exec dos2unix {} \;
+
+
+
+!!!For show help
+
+java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' help
+
+!!!For show Jenkins job list
+
+java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' list-jobs
+
+!!!For get job
+
+java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' get-job front-end  > front-end.xml
+
+!!!For create job
+
+java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:admin -s 'http://localhost:8080/' create-job front-end  < front-end.xml

@@ -1,0 +1,178 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.35">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.9"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.9">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>TF_DESTROY</string>
+        <string>TF_CREATE</string>
+        <string>TF_SLLEP</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description>Create Terraform infrastucture with  parameters / options</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>TF_CREATE</name>
+          <description>Create the GCP resources with Terraform</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>TF_DESTROY</name>
+          <description>Cleanup the GCP resources  (TF destroy)</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TF_SLLEP</name>
+          <description>Time need to create infrastucture with terraform before ansible config instances</description>
+          <defaultValue>0</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.75">
+    <script>pipeline {
+   
+   agent any
+   
+    environment {
+        MAJOR_VERSION = 1
+        //ANSIBLE_PLAYBOOK = &quot;../ansible/apache-playbook-aws.yml&quot;
+        //PACKER_POSTPROCESS = &quot;.././get_ami.sh&quot;
+    }
+   
+    parameters {
+        booleanParam(name: &apos;TF_CREATE&apos;, defaultValue: true, 
+            description: &apos;Create the GCP resources with Terraform&apos;) 
+        booleanParam(name: &apos;TF_DESTROY&apos;, defaultValue: true, 
+            description: &apos;Cleanup the GCP resources  (TF destroy)&apos;) 
+        string(name: &apos;TF_SLLEP&apos;, defaultValue: &apos;0&apos;, 
+            description: &apos;Time need to create infrastucture with terraform before ansible config instances&apos;)
+        }
+        
+    stages {
+        
+        //stage(&apos;Set Terraform path&apos;) {
+        //    steps {
+        //       script {
+         //       def tfHome = tool name: &apos;terraform&apos;
+         //       env.PATH = &quot;${tfHome}:${env.PATH}&quot;
+         //      }
+         //  //sh &apos;terraform  version&apos;
+         //  }
+      //  }
+        
+        stage(&apos;Git clone TF &amp; ansible config&apos;) {
+            steps {
+               git url: &apos;https://github.com/ryzhan/ConfDemo3.git&apos;
+            }
+        }
+        
+        //stage(&apos;Set Terraform path&apos;) {
+        //   steps {
+        //       script {
+        //        def tfHome = tool name: &apos;terraform&apos;
+        //        env.PATH = &quot;${tfHome}:${env.PATH}&quot;
+        //       }
+           //sh &apos;terraform  version&apos;
+        //    }
+        //}
+        
+        stage(&apos;Init Terraform&apos;){
+            
+            when {
+                expression { params.TF_CREATE == true  }
+            }
+            steps{
+                
+                script {
+                    try {sh &quot;terraform init -input=false&quot;
+                    } catch (Exception e) {
+                       echo &quot;Infrastucture was created already&quot;
+                    } 
+                }
+            }
+        }
+    
+        stage(&apos;Create infrastucture&apos;){
+                
+                when {
+                    expression { params.TF_CREATE == true }
+                }
+                steps{
+                    echo &quot;Create two instance(app-server and db-server)&quot;
+                    //sh &quot;terraform plan -out=plan&quot;
+                    sh &quot;terraform apply -auto-approve&quot;
+                }
+        }    
+        
+        stage(&apos;Destroy infrastructure&apos;){
+            
+            when {
+                expression { params.TF_DESTROY == true }
+            }
+            steps{
+                echo &quot;Destroy infrastucture&quot;
+                sh &quot;terraform destroy -auto-approve&quot;
+                //sh &apos;ssh-keygen -R app-server&apos;
+                //sh &apos;ssh-keygen -R db-server&apos;
+            }
+            
+        }
+        
+        stage(&apos;Ansible configure&apos;){
+            
+            when {
+                expression { params.TF_CREATE == true }
+            }
+            steps{
+                
+                script {
+                    def sleeptime = params.TF_SLLEP
+                    sleep sleeptime.toInteger()
+                }
+                
+                echo &quot;Ansible configure app-server and db-server&quot;
+                
+                dir(&apos;./ansible&apos;){
+                    sh &quot;ansible-playbook docker.yml&quot;
+                }
+                
+                
+            }
+        }
+        
+    }
+    
+    post {
+        always {
+            echo &apos;I have finished&apos;
+            //echo &apos;And cleaned workspace&apos;
+            //deleteDir()
+        }
+        success {
+            echo &apos;Job succeeeded!&apos;
+        }
+        unstable {
+            echo &apos;I am unstable :/&apos;
+        }
+        failure {
+            echo &apos;I failed :(&apos;
+        }
+        changed {
+            echo &apos;Things were different before...&apos;
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
