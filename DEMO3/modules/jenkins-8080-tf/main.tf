@@ -54,11 +54,11 @@ connection {
 
     }
 
-  provisioner "file" {
-      source      = "./credential/read-registry.json"
-      destination = "/tmp/read-registry.json"
+  # provisioner "file" {
+  #     source      = "./credential/read-registry.json"
+  #     destination = "/tmp/read-registry.json"
 
-    }
+  #   }
 
   provisioner "file" {
       source      = "./modules/jenkins-8080-tf/scenario_jenkins.sh"

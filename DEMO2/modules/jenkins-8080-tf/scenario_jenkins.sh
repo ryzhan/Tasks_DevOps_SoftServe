@@ -53,32 +53,7 @@ chmod 600 /var/lib/jenkins/.ssh/id_rsa.pub
 exit
 _EOF_
 
-# sudo tar -C /opt -xvzf go1.11.3.linux-amd64.tar.gz
-# sudo sh -c "cat << EOF >> /etc/profile
-# export PATH=$PATH:/opt/go/bin
-# EOF"
-# sudo sh -c "cat << EOF >> $HOME/.profile
-# export GOPATH=$HOME/go
-# export GOBIN=$GOPATH/bin
-# export PATH=$PATH:/opt/go/bin:$GOBIN
-# EOF"
-# source $HOME/.profile
 
-
-
-
-# curl -O https://dl.google.com/go/go1.11.3.linux-amd64.tar.gz
-# sudo tar -C /usr/local -xvzf go1.11.3.linux-amd64.tar.gz
-
-# sudo sh -c "cat << EOF >> /etc/profile
-# export PATH=$PATH:/usr/local/go/bin
-# EOF"
-
-# sudo sh -c "cat << EOF >> $HOME/.profile
-# export GOPATH=$HOME/go
-# export GOBIN=$GOPATH/bin
-# export PATH=$PATH:/usr/local/go/bin:$GOBIN
-# EOF"
 
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
