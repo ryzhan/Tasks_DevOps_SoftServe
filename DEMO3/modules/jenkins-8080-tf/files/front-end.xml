@@ -11,35 +11,97 @@
   </actions>
   <description>Build and run front-end docker container</description>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-      <triggers>
-        <hudson.triggers.SCMTrigger>
-          <spec>* * * * *</spec>
-          <ignorePostCommitHooks>false</ignorePostCommitHooks>
-        </hudson.triggers.SCMTrigger>
-      </triggers>
-    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-  </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.75">
-    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.0.0">
-      <configVersion>2</configVersion>
-      <userRemoteConfigs>
-        <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/ryzhan/front-end.git</url>
-        </hudson.plugins.git.UserRemoteConfig>
-      </userRemoteConfigs>
-      <branches>
-        <hudson.plugins.git.BranchSpec>
-          <name>*/master</name>
-        </hudson.plugins.git.BranchSpec>
-      </branches>
-      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-      <submoduleCfg class="list"/>
-      <extensions/>
-    </scm>
-    <scriptPath>Jenkinsfile</scriptPath>
-    <lightweight>true</lightweight>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.75">
+    <script>#!groovy
+pipeline{
+    agent any
+       
+       stages {
+        stage(&apos;Checkout&apos;) {
+            steps {
+                git url: &apos;https://github.com/ryzhan/front-end.git&apos;
+            }
+        }   
+        
+        stage(&apos;Build front-end&apos;) {
+            steps {
+                
+                sh &apos;docker login -u _json_key -p &quot;$(cat /var/lib/jenkins/credential/if-101-demo1-02c2a2eae285.json)&quot; https://gcr.io&apos;
+                sh &quot;docker build -t gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER .&quot;
+                sh &quot;docker tag  gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER  gcr.io/if-101-demo1/front-end:latest &quot;
+                sh &quot;docker push gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
+                sh &quot;docker push  gcr.io/if-101-demo1/front-end:latest&quot;
+                sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
+                sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:latest&quot;
+                
+                //dir(&apos;./ansible&apos;){
+                //    sh &apos;ansible-playbook build_microservices.yml --tags &quot;front-end-build&quot; --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$WORKSPACE&quot;&apos;
+                //}
+                
+            }
+            
+        }
+           
+        stage(&apos;Archive workspace&apos;) {
+                steps {
+                    archiveArtifacts artifacts: &apos;**/*&apos;, fingerprint: true
+                }
+        }
+        
+        stage(&apos;Approve for Deploy&apos;) {
+        
+                steps {
+                    timeout(time:5, unit:&apos;DAYS&apos;) {
+                        input message:&apos;Approve deployment?&apos;
+                    }
+
+                }
+        }   
+           
+        stage(&apos;Run front-end&apos;) {
+            
+            //environment {             
+            //        DB_NETWORK_IP = sh(script: &quot;getent hosts app-server | cut -d&apos; &apos; -f1&quot;, , returnStdout: true).trim()                  
+            //        DOCKER_HOST=&quot;ssh://jenkins@app-server&quot;        
+            //}
+            steps {
+                
+                sh &quot;git clone https://github.com/ryzhan/ConfDemo3.git&quot;
+                //sh &quot;docker run&quot;
+                dir(&apos;./ConfDemo3/ansible&apos;){
+                    sh &apos;ansible-playbook build_microservices.yml --tags &quot;front-end-run&quot; --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER&quot;&apos;
+                }
+                
+            }
+            
+        }
+        
+       
+ 
+    }
+    
+    post {
+        always {
+            echo &apos;I have finished&apos;
+            echo &apos;And cleaned workspace&apos;
+            deleteDir()
+        }
+        success {
+            echo &apos;Job succeeeded!&apos;
+        }
+        unstable {
+            echo &apos;I am unstable :/&apos;
+        }
+        failure {
+            echo &apos;I failed :(&apos;
+        }
+        changed {
+            echo &apos;Things were different before...&apos;
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
   </definition>
   <triggers/>
   <disabled>false</disabled>
