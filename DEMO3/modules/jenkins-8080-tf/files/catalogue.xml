@@ -28,16 +28,11 @@ pipeline{
             steps {
                 
                 sh &apos;docker login -u _json_key -p &quot;$(cat /var/lib/jenkins/credential/if-101-demo1-02c2a2eae285.json)&quot; https://gcr.io&apos;
-                sh &quot;docker build -t gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER -f ./docker/catalogue/Dockerfile .&quot;
-                sh &quot;docker tag  gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER  gcr.io/if-101-demo1/catalogue:latest &quot;
-                sh &quot;docker push gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER&quot;
-                sh &quot;docker push  gcr.io/if-101-demo1/catalogue:latest&quot;
-                sh &quot;docker rmi -f gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER&quot;
-                sh &quot;docker rmi -f gcr.io/if-101-demo1/catalogue:latest&quot;
-                
-                //dir(&apos;./ansible&apos;){
-                //    sh &apos;ansible-playbook build_microservices.yml --tags &quot;front-end-build&quot; --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$WORKSPACE&quot;&apos;
-                //}
+                sh &quot;docker build -t gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER -t gcr.io/if-101-demo1/catalogue:latest .&quot;
+                sh &quot;docker push gcr.io/if-101-demo1/catalogue&quot;
+                sh &quot;docker rmi -f gcr.io/if-101-demo1/catalogue:latest gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER&quot;
+               
+ 
                 
             }
             

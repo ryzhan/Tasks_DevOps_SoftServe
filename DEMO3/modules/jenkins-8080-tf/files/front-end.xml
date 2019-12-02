@@ -28,12 +28,14 @@ pipeline{
             steps {
                 
                 sh &apos;docker login -u _json_key -p &quot;$(cat /var/lib/jenkins/credential/if-101-demo1-02c2a2eae285.json)&quot; https://gcr.io&apos;
-                sh &quot;docker build -t gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER .&quot;
-                sh &quot;docker tag  gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER  gcr.io/if-101-demo1/front-end:latest &quot;
-                sh &quot;docker push gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
-                sh &quot;docker push  gcr.io/if-101-demo1/front-end:latest&quot;
-                sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
-                sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:latest&quot;
+                sh &quot;docker build -t gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER -t gcr.io/if-101-demo1/front-end:latest .&quot;
+                //sh &quot;docker tag  gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER  gcr.io/if-101-demo1/front-end:latest &quot;
+                sh &quot;docker push gcr.io/if-101-demo1/front-end&quot;
+                //sh &quot;docker push gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
+                //sh &quot;docker push  gcr.io/if-101-demo1/front-end:latest&quot;
+                //sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
+                //sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:latest&quot;
+                sh &quot;docker rmi -f gcr.io/if-101-demo1/front-end:latest gcr.io/if-101-demo1/front-end:3.0.0-$BUILD_NUMBER&quot;
                 
                 //dir(&apos;./ansible&apos;){
                 //    sh &apos;ansible-playbook build_microservices.yml --tags &quot;front-end-build&quot; --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$WORKSPACE&quot;&apos;
