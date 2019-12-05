@@ -1,8 +1,8 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<flow-definition plugin="workflow-job@2.35">
+<flow-definition plugin="workflow-job@2.36">
   <actions>
-    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.9"/>
-    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.9">
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.4.0"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.4.0">
       <jobProperties/>
       <triggers/>
       <parameters>
@@ -142,7 +142,7 @@
                 echo &quot;Ansible configure app-server and db-server&quot;
                 
                 dir(&apos;./ansible&apos;){
-                    sh &quot;ansible-playbook docker.yml&quot;
+                    sh &apos;ansible-playbook docker.yml --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$WORKSPACE&quot;&apos;
                 }
                 
                 

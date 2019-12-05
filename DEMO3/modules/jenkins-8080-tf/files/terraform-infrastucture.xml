@@ -28,12 +28,6 @@
           <description>Cleanup the GCP resources  (TF destroy)</description>
           <defaultValue>true</defaultValue>
         </hudson.model.BooleanParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>TF_SLLEP</name>
-          <description>Time need to create infrastucture with terraform before ansible config instances</description>
-          <defaultValue>0</defaultValue>
-          <trim>false</trim>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -53,37 +47,17 @@
             description: &apos;Create the GCP resources with Terraform&apos;) 
         booleanParam(name: &apos;TF_DESTROY&apos;, defaultValue: true, 
             description: &apos;Cleanup the GCP resources  (TF destroy)&apos;) 
-        string(name: &apos;TF_SLLEP&apos;, defaultValue: &apos;0&apos;, 
-            description: &apos;Time need to create infrastucture with terraform before ansible config instances&apos;)
+        //string(name: &apos;TF_SLLEP&apos;, defaultValue: &apos;0&apos;, 
+        //    description: &apos;Time need to create infrastucture with terraform before ansible config instances&apos;)
         }
         
     stages {
-        
-        //stage(&apos;Set Terraform path&apos;) {
-        //    steps {
-        //       script {
-         //       def tfHome = tool name: &apos;terraform&apos;
-         //       env.PATH = &quot;${tfHome}:${env.PATH}&quot;
-         //      }
-         //  //sh &apos;terraform  version&apos;
-         //  }
-      //  }
         
         stage(&apos;Git clone TF &amp; ansible config&apos;) {
             steps {
                git url: &apos;https://github.com/ryzhan/ConfDemo3.git&apos;
             }
         }
-        
-        //stage(&apos;Set Terraform path&apos;) {
-        //   steps {
-        //       script {
-        //        def tfHome = tool name: &apos;terraform&apos;
-        //        env.PATH = &quot;${tfHome}:${env.PATH}&quot;
-        //       }
-           //sh &apos;terraform  version&apos;
-        //    }
-        //}
         
         stage(&apos;Init Terraform&apos;){
             
@@ -95,7 +69,7 @@
                 script {
                     try {sh &quot;terraform init -input=false&quot;
                     } catch (Exception e) {
-                       echo &quot;Infrastucture was created already&quot;
+                       echo &quot;Something wrong&quot;
                     } 
                 }
             }
@@ -107,8 +81,7 @@
                     expression { params.TF_CREATE == true }
                 }
                 steps{
-                    echo &quot;Create two instance(app-server and db-server)&quot;
-                    //sh &quot;terraform plan -out=plan&quot;
+                    echo &quot;Create tree instance(app-server, db-server, elk-server)&quot;
                     sh &quot;terraform apply -auto-approve&quot;
                 }
         }    
@@ -121,8 +94,6 @@
             steps{
                 echo &quot;Destroy infrastucture&quot;
                 sh &quot;terraform destroy -auto-approve&quot;
-                //sh &apos;ssh-keygen -R app-server&apos;
-                //sh &apos;ssh-keygen -R db-server&apos;
             }
             
         }
@@ -134,12 +105,12 @@
             }
             steps{
                 
-                script {
-                    def sleeptime = params.TF_SLLEP
-                    sleep sleeptime.toInteger()
-                }
+                //script {
+                //    def sleeptime = params.TF_SLLEP
+                //    sleep sleeptime.toInteger()
+                //}
                 
-                echo &quot;Ansible configure app-server and db-server&quot;
+                echo &quot;Ansible configure app-server, db-server, elk-server&quot;
                 
                 dir(&apos;./ansible&apos;){
                     sh &apos;ansible-playbook docker.yml --extra-var &quot;BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$WORKSPACE&quot;&apos;

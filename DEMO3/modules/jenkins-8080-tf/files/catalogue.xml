@@ -11,96 +11,35 @@
   </actions>
   <description>Build and run catalogue docker container</description>
   <keepDependencies>false</keepDependencies>
-  <properties/>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.75">
-    <script>#!groovy
-pipeline{
-    agent any
-       
-       stages {
-        stage(&apos;Checkout&apos;) {
-            steps {
-                git url: &apos;https://github.com/ryzhan/catalogue.git&apos;
-            }
-        }   
-        
-        stage(&apos;Build catalogue&apos;) {
-            steps {
-                
-                sh &apos;docker login -u _json_key -p &quot;$(cat /var/lib/jenkins/credential/if-101-demo1-02c2a2eae285.json)&quot; https://gcr.io&apos;
-                sh &quot;docker build -t gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER -t gcr.io/if-101-demo1/catalogue:latest .&quot;
-                sh &quot;docker push gcr.io/if-101-demo1/catalogue&quot;
-                sh &quot;docker rmi -f gcr.io/if-101-demo1/catalogue:latest gcr.io/if-101-demo1/catalogue:3.0.0-$BUILD_NUMBER&quot;
-               
- 
-                
-            }
-            
-        }
-           
-        stage(&apos;Archive workspace&apos;) {
-                steps {
-                    archiveArtifacts artifacts: &apos;**/*&apos;, fingerprint: true
-                }
-        }
-        
-        stage(&apos;Approve for Deploy&apos;) {
-        
-                steps {
-                    timeout(time:5, unit:&apos;DAYS&apos;) {
-                        input message:&apos;Approve deployment?&apos;
-                    }
-
-                }
-        }   
-           
-        stage(&apos;Run catalogue&apos;) {
-            
-            environment {
-                DB_HOST = sh(script: &quot;getent hosts db-server | cut -d&apos; &apos; -f1&quot;, , returnStdout: true).trim()
-            }
-            
-            //environment {             
-            //        DB_NETWORK_IP = sh(script: &quot;getent hosts app-server | cut -d&apos; &apos; -f1&quot;, , returnStdout: true).trim()                  
-            //        DOCKER_HOST=&quot;ssh://jenkins@app-server&quot;        
-            //}
-            steps {
-                
-                sh &quot;git clone https://github.com/ryzhan/ConfDemo3.git&quot;
-                //sh &quot;docker run&quot;
-                dir(&apos;./ConfDemo3/ansible&apos;){
-                    sh &apos;ansible-playbook build_microservices.yml --tags &quot;catalogue-run&quot; --extra-var &quot;db_host=$DB_HOST&quot;&apos;
-                }
-                
-            }
-            
-        }
-        
-       
- 
-    }
-    
-    post {
-        always {
-            echo &apos;I have finished&apos;
-            echo &apos;And cleaned workspace&apos;
-            deleteDir()
-        }
-        success {
-            echo &apos;Job succeeeded!&apos;
-        }
-        unstable {
-            echo &apos;I am unstable :/&apos;
-        }
-        failure {
-            echo &apos;I failed :(&apos;
-        }
-        changed {
-            echo &apos;Things were different before...&apos;
-        }
-    }
-}</script>
-    <sandbox>true</sandbox>
+  <properties>
+    <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+      <triggers>
+        <hudson.triggers.SCMTrigger>
+          <spec>* * * * *</spec>
+          <ignorePostCommitHooks>false</ignorePostCommitHooks>
+        </hudson.triggers.SCMTrigger>
+      </triggers>
+    </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.75">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.0.0">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>https://github.com/ryzhan/catalogue.git</url>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/master</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
   </definition>
   <triggers/>
   <disabled>false</disabled>
