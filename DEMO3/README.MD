@@ -7,9 +7,9 @@ Created by Yaroslav Ryzhan
    * **CI/CD(Jenkins or TeamCity)** 
    * **Ansible**
    * **Terraform**
-For logging use:**
+   
+* **For logging use:**
    * **Beats, Elasticsearch, Kibana** 
-
 
 ## [Sock Shop : A Microservice Demo Application](https://github.com/microservices-demo)
 
