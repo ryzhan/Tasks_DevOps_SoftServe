@@ -1,0 +1,28 @@
+{
+    "branches": [
+      "hotfix-*",
+      "master"
+    ],
+    "tagFormat": "${version}",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits",
+          "parserOpts": {
+            "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES"]
+          }
+        }
+      ],
+      [
+        "@semantic-release/git"
+      ],
+      [
+        "semantic-release-ado",
+        {
+          "varName": "nextRelease",
+          "setOnlyOnRelease": false
+        }
+      ]
+    ]
+  }
