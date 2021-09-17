@@ -1,0 +1,38 @@
+{
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "header-max-length": [
+        2,
+        "always",
+        120
+      ],
+      "type-enum": [
+        2,
+        "always",
+        [
+          "breaking",
+          "feat",
+          "fix",
+          "refactor",
+          "config",
+          "test",
+          "docs",
+          "no-release"
+        ]
+      ]
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "husky": "^7.0.2"
+  }
+}
