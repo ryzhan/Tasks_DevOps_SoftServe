@@ -1,7 +1,8 @@
 {
     "branches": [
       "hotfix-*",
-      "master"
+      "master",
+      "main"
     ],
     "tagFormat": "${version}",
     "plugins": [
